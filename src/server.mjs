@@ -98,7 +98,7 @@ const db = mysql.createPool({
   host: 'mysql-cc-covercompanion.a.aivencloud.com',
   port:'11940',
   user: 'avnadmin',
-  password: 'AVNS_-QwgfV6Rlibj5WedFU1',
+  password: 'DB_PW',
   database: 'defaultdb',
   ssl: {
     ca: fs.readFileSync('./ca.cer'), 
