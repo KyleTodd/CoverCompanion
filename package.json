@@ -1,0 +1,45 @@
+{
+    "name": "routify-starter",
+    "private": true,
+    "scripts": {
+        "dev": "run-p dev:*",
+        "dev:routify": "routify",
+        "dev:vite": "vite",
+        "preview": "vite preview",
+        "build": "run-s build:*",
+        "build:routify": "routify -b",
+        "build:vite": "vite build"
+    },
+    "devDependencies": {
+        "@iconify/svelte": "^3.1.4",
+        "@roxi/routify": "^2.18.8",
+        "@sveltejs/vite-plugin-svelte": "^1.4.0",
+        "autoprefixer": "^10.4.7",
+        "npm-run-all": "^4.1.5",
+        "postcss": "^8.4.14",
+        "postcss-import": "^14.1.0",
+        "rollup-plugin-node-builtins": "^2.1.2",
+        "svelte": "^3.50.0",
+        "svelte-preprocess": "^4.10.7",
+        "vite": "^3.1.0"
+    },
+    "dependencies": {
+        "bcrypt": "^5.1.0",
+        "body-parser": "^1.20.2",
+        "bootstrap": "^5.3.0",
+        "chalk": "^5.3.0",
+        "choices.js": "^10.2.0",
+        "cookie-parser": "^1.4.6",
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "express-session": "^1.17.3",
+        "https": "^1.0.0",
+        "moment": "^2.29.4",
+        "multer": "^1.4.5-lts.1",
+        "mysql": "^2.18.1",
+        "mysql2": "^3.5.1",
+        "pdfjs-dist": "^3.7.107",
+        "pm2": "^5.3.0",
+        "serve": "^14.2.0"
+    }
+}
