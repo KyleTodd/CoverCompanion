@@ -14,6 +14,12 @@ import session from 'express-session';
 import chalk from 'chalk';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { config } from 'dotenv';
+config({ path: path.resolve(process.cwd(), '.env') });
+const dbPassword = process.env.DB_PW;
+const serverUrl = process.env.SERVER_URL;
+console.log(dbPassword);
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -89,7 +95,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use(cors({
-  origin: 'https://localhost',
+  origin: serverUrl,
   credentials: true
 }));
 
@@ -98,7 +104,7 @@ const db = mysql.createPool({
   host: 'mysql-cc-covercompanion.a.aivencloud.com',
   port:'11940',
   user: 'avnadmin',
-  password: 'AVNS_-QwgfV6Rlibj5WedFU1',
+  password: dbPassword,
   database: 'defaultdb',
   ssl: {
     ca: fs.readFileSync('./ca.cer'), 
@@ -245,7 +251,7 @@ app.get('/getPdf', authenticate, async (req, res) => {
 
     if (rows.length > 0) {
       const pdfLocation = rows[0].LOCATION;
-      const pdfUrl = `https://localhost:3000/${pdfLocation}`; // Modify the URL based on your server setup
+      const pdfUrl = serverUrl+`:3000/${pdfLocation}`; 
       res.json({ pdfUrl });
     } else {
       console.log('PDF not found');
