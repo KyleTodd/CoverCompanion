@@ -16,11 +16,9 @@ RUN npm install
 # Bundle app source inside the Docker image
 COPY . .
 
-# Build your app (if necessary)
 RUN npm run build
 
-# Your app binds to port 3000 so you'll use the EXPOSE instruction to have it mapped by the docker daemon
 EXPOSE 4173
 
 # Define the command to run your app
-CMD [ "npm", "run", "preview" ]
+CMD ["node", "fserver.js"]
