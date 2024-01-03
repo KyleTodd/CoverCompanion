@@ -116,7 +116,7 @@ const db = mysql.createPool({
 async function testConnection() {
   try {
     const connection = await db.getConnection();
-    console.log('Connected successfully!');
+    console.log('Connected successfully to mysql-cc-covercompanion.a.aivencloud.com!');
     connection.release();
   } catch (err) {
     console.error('Connection error:', err.message);
@@ -693,5 +693,5 @@ app.get('/logout', function(req, res){
 });
 
 https.createServer(options, app).listen(3000, () => {
-  console.log(chalk.underline('Server started on port 3000'));
+  console.log(chalk.underline('Backend server started on port 3000'));
 });
