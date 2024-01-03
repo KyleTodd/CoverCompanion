@@ -96,9 +96,10 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use(cors({
-  origin: serverUrl,
+  origin: ['https://covercompanion-sx5k-deploy-tfe-g6qvsh5ywa-as.a.run.app','https://covercompanion-sx5k-main-g6qvsh5ywa-as.a.run.app'],
   credentials: true
 }));
+
 
 
 const db = mysql.createPool({
