@@ -18,7 +18,8 @@ import { config } from 'dotenv';
 config({ path: path.resolve(process.cwd(), '.env') });
 const dbPassword = process.env.DB_PW;
 const serverUrl = process.env.SERVER_URL;
-console.log(dbPassword);
+const backendUrl = process.env.BACKEND_URL;
+console.log(dbPassword,serverUrl,backendUrl);
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -251,7 +252,7 @@ app.get('/getPdf', authenticate, async (req, res) => {
 
     if (rows.length > 0) {
       const pdfLocation = rows[0].LOCATION;
-      const pdfUrl = serverUrl+`:3000/${pdfLocation}`; 
+      const pdfUrl = backendUrl+`:3000/${pdfLocation}`; 
       res.json({ pdfUrl });
     } else {
       console.log('PDF not found');
