@@ -4,8 +4,8 @@ FROM node:14
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
-#Dev only -- Install nodemon
-RUN npm install -g nodemon
+# Dev only -- Install nodemon
+# RUN npm install -g nodemon
 
 # Copy package.json and package-lock.json (or yarn.lock if using Yarn)
 COPY package*.json ./
