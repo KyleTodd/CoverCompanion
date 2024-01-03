@@ -18,7 +18,9 @@ COPY . .
 
 RUN npm run build
 
+
+EXPOSE 3000
 EXPOSE 4173
 
 # Define the command to run your app
-CMD ["node", "fserver.js"]
+CMD ["npm", "start"]
