@@ -5,7 +5,7 @@ import fs from "fs";
 import https from "https";
 export default defineConfig({
   server: {
-    port: 8080,
+    port: 4173,
     host:true,
     https:{
       key: fs.readFileSync('privatekey.pem', 'utf8'),

@@ -26,6 +26,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
+const PORT = process.env.PORT || 8080;
 
 const options = {
   key: fs.readFileSync('privatekey.pem', 'utf8'),
@@ -96,9 +97,10 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use(cors({
-  origin: serverUrl,
+  origin: ['https://covercompanion-sx5k-deploy-tfe-g6qvsh5ywa-as.a.run.app','https://covercompanion-sx5k-main-g6qvsh5ywa-as.a.run.app'],
   credentials: true
 }));
+
 
 
 const db = mysql.createPool({
@@ -116,7 +118,7 @@ const db = mysql.createPool({
 async function testConnection() {
   try {
     const connection = await db.getConnection();
-    console.log('Connected successfully!');
+    console.log('Connected successfully to mysql-cc-covercompanion.a.aivencloud.com!');
     connection.release();
   } catch (err) {
     console.error('Connection error:', err.message);
@@ -124,6 +126,33 @@ async function testConnection() {
 }
 
 testConnection();
+
+// app.use((req, res, next) => {
+//   console.log(`Incoming request: ${req.method} ${req.url}`);
+//   next();
+// });
+
+// // Log every response TESTING 
+// app.use((req, res, next) => {
+//   const oldWrite = res.write;
+//   const oldEnd = res.end;
+
+//   const chunks = [];
+
+//   res.write = function (chunk) {
+//     chunks.push(chunk);
+//     return oldWrite.apply(res, arguments);
+//   };
+
+//   res.end = function (chunk) {
+//     if (chunk) chunks.push(chunk);
+//     const body = Buffer.concat(chunks).toString('utf8');
+//     console.log(`Response body: ${body}`);
+//     oldEnd.apply(res, arguments);
+//   };
+
+//   next();
+// });
 
 app.use('/PDF', express.static(path.join(__dirname, './PDF')));
 
@@ -692,6 +721,18 @@ app.get('/logout', function(req, res){
   });
 });
 
-https.createServer(options, app).listen(3000, () => {
-  console.log(chalk.underline('Server started on port 3000'));
+app.get('/',function(req,res){
+res.status(200).send('Server is up and working!')
+});
+
+
+const server = app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+server.setTimeout(0);
+
+process.on('SIGINT', () => {
+  console.log('Received SIGINT. Exiting...');
+  process.exit(0); 
 });
