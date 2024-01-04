@@ -26,7 +26,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 443;
+const PORT = process.env.PORT || 8080;
 
 const options = {
   key: fs.readFileSync('privatekey.pem', 'utf8'),
@@ -127,32 +127,32 @@ async function testConnection() {
 
 testConnection();
 
-app.use((req, res, next) => {
-  console.log(`Incoming request: ${req.method} ${req.url}`);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(`Incoming request: ${req.method} ${req.url}`);
+//   next();
+// });
 
-// Log every response TESTING 
-app.use((req, res, next) => {
-  const oldWrite = res.write;
-  const oldEnd = res.end;
+// // Log every response TESTING 
+// app.use((req, res, next) => {
+//   const oldWrite = res.write;
+//   const oldEnd = res.end;
 
-  const chunks = [];
+//   const chunks = [];
 
-  res.write = function (chunk) {
-    chunks.push(chunk);
-    return oldWrite.apply(res, arguments);
-  };
+//   res.write = function (chunk) {
+//     chunks.push(chunk);
+//     return oldWrite.apply(res, arguments);
+//   };
 
-  res.end = function (chunk) {
-    if (chunk) chunks.push(chunk);
-    const body = Buffer.concat(chunks).toString('utf8');
-    console.log(`Response body: ${body}`);
-    oldEnd.apply(res, arguments);
-  };
+//   res.end = function (chunk) {
+//     if (chunk) chunks.push(chunk);
+//     const body = Buffer.concat(chunks).toString('utf8');
+//     console.log(`Response body: ${body}`);
+//     oldEnd.apply(res, arguments);
+//   };
 
-  next();
-});
+//   next();
+// });
 
 app.use('/PDF', express.static(path.join(__dirname, './PDF')));
 
@@ -725,9 +725,17 @@ app.get('/',function(req,res){
 res.status(200).send('Server is up and working!')
 });
 
-https.createServer(options, app).listen(PORT, () => {
-   console.log(chalk.underline(`Server running on port ${PORT}`));
- });
+//https.createServer(options, app).listen(PORT, () => {
+//    console.log(chalk.underline(`Server running on port ${PORT}`));
+//  });
+
+// httpsServer.setTimeout(0); 
+
+const server = app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+server.setTimeout(0);
 
 process.on('SIGINT', () => {
   console.log('Received SIGINT. Exiting...');
