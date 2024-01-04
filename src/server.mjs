@@ -26,6 +26,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
+const PORT = process.env.PORT || 443;
 
 const options = {
   key: fs.readFileSync('privatekey.pem', 'utf8'),
@@ -693,6 +694,15 @@ app.get('/logout', function(req, res){
   });
 });
 
-https.createServer(options, app).listen(3000, () => {
-  console.log(chalk.underline('Backend server started on port 3000'));
+app.get('/',function(req,res){
+res.status(200).send('Server is up and working!')
+});
+
+https.createServer(options, app).listen(PORT, () => {
+   console.log(chalk.underline(`Server running on port ${PORT}`));
+ });
+
+process.on('SIGINT', () => {
+  console.log('Received SIGINT. Exiting...');
+  process.exit(0); 
 });
