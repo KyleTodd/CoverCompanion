@@ -127,6 +127,33 @@ async function testConnection() {
 
 testConnection();
 
+app.use((req, res, next) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  next();
+});
+
+// Log every response TESTING 
+app.use((req, res, next) => {
+  const oldWrite = res.write;
+  const oldEnd = res.end;
+
+  const chunks = [];
+
+  res.write = function (chunk) {
+    chunks.push(chunk);
+    return oldWrite.apply(res, arguments);
+  };
+
+  res.end = function (chunk) {
+    if (chunk) chunks.push(chunk);
+    const body = Buffer.concat(chunks).toString('utf8');
+    console.log(`Response body: ${body}`);
+    oldEnd.apply(res, arguments);
+  };
+
+  next();
+});
+
 app.use('/PDF', express.static(path.join(__dirname, './PDF')));
 
 //Hash the password passed into the function
