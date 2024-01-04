@@ -42,9 +42,9 @@ app.use(session({
   saveUninitialized: true, // This forces a session that is "uninitialized" to be saved to the store.
   cookie: { 
     secure: true, // If true, the browser sends the cookie only over HTTPS.
-    httpOnly: true, // If true, the cookie cannot be accessed through client side script 
+    httpOnly: false, // If true, the cookie cannot be accessed through client side script 
     maxAge: 24 * 60 * 60 * 1000,// Cookie expires after 24 hours
-    sameSite: 'None'
+    sameSite: 'None',
   }
 }));
 
@@ -54,6 +54,7 @@ function authenticate(req, res, next) {
     // User is not logged in
     res.send({ email: null })
     console.log('Authentication Not logged in');
+    console.log(req.session);
   } else {
     // User is logged in
     req.email = email;
@@ -128,32 +129,10 @@ async function testConnection() {
 
 testConnection();
 
-// app.use((req, res, next) => {
-//   console.log(`Incoming request: ${req.method} ${req.url}`);
-//   next();
-// });
-
-// // Log every response TESTING 
-// app.use((req, res, next) => {
-//   const oldWrite = res.write;
-//   const oldEnd = res.end;
-
-//   const chunks = [];
-
-//   res.write = function (chunk) {
-//     chunks.push(chunk);
-//     return oldWrite.apply(res, arguments);
-//   };
-
-//   res.end = function (chunk) {
-//     if (chunk) chunks.push(chunk);
-//     const body = Buffer.concat(chunks).toString('utf8');
-//     console.log(`Response body: ${body}`);
-//     oldEnd.apply(res, arguments);
-//   };
-
-//   next();
-// });
+ app.use((req, res, next) => {
+   console.log(`Incoming request: ${req.method} ${req.url}`);
+  next();
+});
 
 app.use('/PDF', express.static(path.join(__dirname, './PDF')));
 
