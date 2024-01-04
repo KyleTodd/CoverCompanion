@@ -725,11 +725,6 @@ app.get('/',function(req,res){
 res.status(200).send('Server is up and working!')
 });
 
-//https.createServer(options, app).listen(PORT, () => {
-//    console.log(chalk.underline(`Server running on port ${PORT}`));
-//  });
-
-// httpsServer.setTimeout(0); 
 
 const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
