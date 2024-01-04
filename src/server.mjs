@@ -41,9 +41,10 @@ app.use(session({
   resave: false, // This forces the session to be saved back to the session store, even if the session was never modified during the request.
   saveUninitialized: true, // This forces a session that is "uninitialized" to be saved to the store.
   cookie: { 
-    secure: false, // If true, the browser sends the cookie only over HTTPS.
-    httpOnly: false, // If true, the cookie cannot be accessed through client side script (highly recommended)
-    maxAge: 24 * 60 * 60 * 1000 // Cookie expires after 24 hours
+    secure: true, // If true, the browser sends the cookie only over HTTPS.
+    httpOnly: true, // If true, the cookie cannot be accessed through client side script 
+    maxAge: 24 * 60 * 60 * 1000,// Cookie expires after 24 hours
+    sameSite: 'None'
   }
 }));
 
@@ -97,7 +98,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use(cors({
-  origin: ['https://covercompanion-sx5k-deploy-tfe-g6qvsh5ywa-as.a.run.app','https://covercompanion-sx5k-main-g6qvsh5ywa-as.a.run.app'],
+  origin: ['https://covercompanion-sx5k-main-g6qvsh5ywa-as.a.run.app'],
   credentials: true
 }));
 
